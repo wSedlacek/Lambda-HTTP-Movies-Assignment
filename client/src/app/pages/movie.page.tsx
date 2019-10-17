@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
 
@@ -13,6 +13,7 @@ interface PathParams {
 
 interface MoviePageProps extends RouteComponentProps<PathParams> {
   addToSavedList: (movie: Movie) => void;
+  deleteMovie: (movie: Movie) => void;
 }
 
 interface MoviePageState {
@@ -31,12 +32,6 @@ class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
     this.fetchMovie(this.props.match.params.id);
   }
 
-  componentWillReceiveProps(newProps: MoviePageProps) {
-    if (this.props.match.params.id !== newProps.match.params.id) {
-      this.fetchMovie(newProps.match.params.id);
-    }
-  }
-
   fetchMovie = (id: string) => {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
@@ -45,8 +40,20 @@ class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
   };
 
   saveMovie = () => {
-    const addToSavedList = this.props.addToSavedList;
-    if (this.state.movie) addToSavedList(this.state.movie);
+    const { addToSavedList } = this.props;
+    const { movie } = this.state;
+    if (!movie) return;
+
+    addToSavedList(movie);
+  };
+
+  deleteMovie = () => {
+    const { deleteMovie, history } = this.props;
+    const { movie } = this.state;
+    if (!movie) return;
+
+    deleteMovie(movie);
+    history.goBack();
   };
 
   render() {
@@ -57,6 +64,7 @@ class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
     return (
       <MovieCard movie={this.state.movie}>
         <Button onClick={this.saveMovie}>Save</Button>
+        <Button onClick={this.deleteMovie}>Delete</Button>
       </MovieCard>
     );
   }

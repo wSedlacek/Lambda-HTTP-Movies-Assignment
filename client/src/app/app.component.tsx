@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import MoviePage from './pages/movie.page';
 import MoviesPage from './pages/movies.page';
@@ -34,6 +34,16 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
+  const updateMovie = (movie: Movie) => {
+    axios
+      .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+      .then(() => {
+        setMovies(movies.map((item) => (item.id === movie.id ? movie : item)));
+        setSavedList(savedList.map((item) => (item.id === movie.id ? movie : item)));
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Router>
       <SavedList list={savedList} />
@@ -46,7 +56,10 @@ const App = () => {
             <MoviePage {...props} addToSavedList={addToSavedList} deleteMovie={deleteMovie} />
           )}
         />
-        <Route path='/update-movie/:id' render={(props) => <UpdatePage {...props} />} />
+        <Route
+          path='/update-movie/:id'
+          render={(props) => <UpdatePage {...props} updateMovie={updateMovie} />}
+        />
       </Switch>
     </Router>
   );

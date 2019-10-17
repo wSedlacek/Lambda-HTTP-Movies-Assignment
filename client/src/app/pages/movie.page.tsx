@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
 
@@ -57,13 +57,15 @@ class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
   };
 
   render() {
-    if (!this.state.movie) {
-      return <div>Loading movie information...</div>;
-    }
+    const { movie } = this.state;
+    if (!movie) return <div>Loading movie information...</div>;
 
     return (
-      <MovieCard movie={this.state.movie}>
+      <MovieCard movie={movie}>
         <Button onClick={this.saveMovie}>Save</Button>
+        <Link to={`/update-movie/${movie.id}`}>
+          <Button>Edit</Button>
+        </Link>
         <Button onClick={this.deleteMovie}>Delete</Button>
       </MovieCard>
     );

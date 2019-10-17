@@ -15,8 +15,8 @@ class MoviesPage extends React.Component<MoviesPageProps> {
     return (
       <div>
         {movies.map((movie) => (
-          <Link to={`/movies/${movie.id}`}>
-            <MovieCard key={movie.id} movie={movie} />
+          <Link to={`/movies/${movie.id}`} key={movie.id}>
+            <MovieCard movie={movie} />
           </Link>
         ))}
       </div>

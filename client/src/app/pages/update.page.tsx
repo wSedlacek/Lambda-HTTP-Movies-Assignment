@@ -5,14 +5,12 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Movie } from '../models/Movie';
 import { MovieUpdate } from '../components/movie-update/movie-update.component';
 
-import { MovieCard } from '../components/movie-card/movie-card.component';
-
 interface PathParams {
   id: string;
 }
 
 interface UpdatePageProps extends RouteComponentProps<PathParams> {
-  updateMovie: (movie: Movie) => void;
+  updateMovie: (movie: Movie) => Promise<void>;
 }
 
 interface UpdatePageState {

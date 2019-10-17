@@ -13,7 +13,7 @@ interface PathParams {
 
 interface MoviePageProps extends RouteComponentProps<PathParams> {
   addToSavedList: (movie: Movie) => void;
-  deleteMovie: (movie: Movie) => void;
+  deleteMovie: (movie: Movie) => Promise<void>;
 }
 
 interface MoviePageState {
@@ -47,12 +47,12 @@ class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
     addToSavedList(movie);
   };
 
-  deleteMovie = () => {
+  deleteMovie = async () => {
     const { deleteMovie, history } = this.props;
     const { movie } = this.state;
     if (!movie) return;
 
-    deleteMovie(movie);
+    await deleteMovie(movie);
     history.goBack();
   };
 

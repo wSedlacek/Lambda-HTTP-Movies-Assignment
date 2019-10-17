@@ -24,8 +24,8 @@ const App = () => {
     setSavedList([...savedList, movie]);
   };
 
-  const deleteMovie = (movie: Movie) => {
-    axios
+  const deleteMovie = async (movie: Movie) => {
+    await axios
       .delete(`http://localhost:5000/api/movies/${movie.id}`)
       .then(() => {
         setMovies(movies.filter((item) => item.id !== movie.id));
@@ -34,8 +34,8 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  const updateMovie = (movie: Movie) => {
-    axios
+  const updateMovie = async (movie: Movie) => {
+    await axios
       .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
       .then(() => {
         setMovies(movies.map((item) => (item.id === movie.id ? movie : item)));

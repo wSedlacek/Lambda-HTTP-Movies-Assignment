@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface MovieUpdateProps {
   movie: Movie;
-  updateMovie: (movie: Movie) => void;
+  updateMovie: (movie: Movie) => Promise<void>;
 }
 
 const MovieUpdate: React.FunctionComponent<MovieUpdateProps> = (props) => {
@@ -37,12 +37,12 @@ const MovieUpdate: React.FunctionComponent<MovieUpdateProps> = (props) => {
     };
   };
 
-  const updateMovie = (e: React.FormEvent<HTMLFormElement>) => {
+  const updateMovie = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { updateMovie } = props;
     if (!movie) return;
 
-    updateMovie(movie);
+    await updateMovie(movie);
     history.goBack();
   };
 

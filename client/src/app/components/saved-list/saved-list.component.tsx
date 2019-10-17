@@ -33,13 +33,11 @@ const SavedList: React.FunctionComponent<SavedListProps> = (props) => {
       <CardContent className={classes.card}>
         <Typography variant='h5'>Saved Movies:</Typography>
         <div className={classes.list}>
-          {list.map((movie) => {
-            return (
-              <Link to={`/movies/${movie.id}`} key={movie.id}>
-                <Button>{movie.title}</Button>
-              </Link>
-            );
-          })}
+          {list.map((movie) => (
+            <Link to={`/movies/${movie.id}`} key={movie.id}>
+              <Button>{movie.title}</Button>
+            </Link>
+          ))}
         </div>
         <Link to='/'>
           <Button color='primary' variant='contained'>

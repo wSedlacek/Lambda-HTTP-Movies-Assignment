@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Movie } from '../models/Movie';
 import { MovieCard } from '../components/movie-card/movie-card.component';
@@ -14,7 +15,9 @@ class MoviesPage extends React.Component<MoviesPageProps> {
     return (
       <div>
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <Link to={`/movies/${movie.id}`}>
+            <MovieCard key={movie.id} movie={movie} />
+          </Link>
         ))}
       </div>
     );

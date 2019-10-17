@@ -15,10 +15,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignContent: 'center',
   },
-  link: {
-    textDecoration: 'none',
-    color: 'unset',
-  },
   list: {
     display: 'flex',
   },
@@ -39,13 +35,13 @@ const SavedList: React.FunctionComponent<SavedListProps> = (props) => {
         <div className={classes.list}>
           {list.map((movie) => {
             return (
-              <Link className={classes.link} to={`/movies/${movie.id}`} key={movie.id}>
+              <Link to={`/movies/${movie.id}`} key={movie.id}>
                 <Button>{movie.title}</Button>
               </Link>
             );
           })}
         </div>
-        <Link className={classes.link} to='/'>
+        <Link to='/'>
           <Button color='primary' variant='contained'>
             Home
           </Button>

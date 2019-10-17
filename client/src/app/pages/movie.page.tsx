@@ -18,6 +18,7 @@ interface MoviePageProps extends RouteComponentProps<PathParams> {
 
 interface MoviePageState {
   movie: Movie | null;
+  mounted: boolean;
 }
 
 class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
@@ -25,19 +26,32 @@ class MoviePage extends React.Component<MoviePageProps, MoviePageState> {
     super(props);
     this.state = {
       movie: null,
+      mounted: false,
     };
   }
 
   componentDidMount() {
-    this.fetchMovie(this.props.match.params.id);
+    this.setState({ ...this.state, mounted: true });
+    this.componentDidUpdate();
   }
 
-  fetchMovie = (id: string) => {
-    axios
-      .get(`http://localhost:5000/api/movies/${id}`)
-      .then((res) => this.setState({ movie: res.data }))
-      .catch((err) => console.log(err.response));
-  };
+  componentWillUnmount() {
+    this.setState({ ...this.state, mounted: false });
+  }
+
+  componentDidUpdate() {
+    const { id } = this.props.match.params;
+    const { mounted, movie } = this.state;
+
+    if (!movie || `${movie.id}` !== id) {
+      axios
+        .get<Movie>(`http://localhost:5000/api/movies/${id}`)
+        .then((res) => {
+          if (mounted) this.setState({ movie: res.data });
+        })
+        .catch((err) => console.log(err));
+    }
+  }
 
   saveMovie = () => {
     const { addToSavedList } = this.props;
